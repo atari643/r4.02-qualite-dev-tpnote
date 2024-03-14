@@ -1,6 +1,7 @@
 ---
-image: registry.u-bordeaux.fr/tthor/alpine-git
-tags: ['docker']
+default:
+  image: registry.u-bordeaux.fr/tthor/alpine-git
+  tags: ['docker']
 
 stages:
   - build
