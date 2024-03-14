@@ -1,0 +1,19 @@
+---
+image: registry.u-bordeaux.fr/tthor/alpine-git
+tags: ['docker']
+
+stages:
+  - build
+
+before_script:
+  # Fix that damn Git Unsafe Repository (cve-2022-24765)
+  - git config --global --add safe.directory $CI_PROJECT_DIR
+  # Retrieves any submodules
+  - git submodule update --init --recursive
+  # Fetch all branches from repository
+  - git fetch --all
+
+build-job:
+  stage: build
+  script:
+    - echo "Hello World !"

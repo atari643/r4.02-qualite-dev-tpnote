@@ -1,93 +1,158 @@
-# r4.02-qualite-dev-tpnote
+# Template CI
 
+Epreuve R4.02 sur machine en temps limité et en binôme. **Merci de lire très attentivement l'intégralité du sujet avant de commencer et de respecter l'ensemble des consignes.**
 
+> **Note**
+> Si votre classe est composée d'un nombre impair d'étudiants lors de cette épreuve, l'une des équipes pourra être un groupe de trois étudiants.
 
-## Getting started
+L'objectif de cette épreuve est de montrer votre capacité à maîtriser le 'workflow' **GitLab** avec des *Merge-Requests* (*MR*) et des *Issues*, ainsi que la mise en place d'une *Intégration Continue* (*CI*) dans **GitLab**.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## Barème indicatif
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+- [+2pt] pour le *fork* du dépôt initial et respect des consignes associées.
+- [+5pt] pour mise en place d'une *Issue* et de la *MR* associée pour chacune des fonctionnalités.
+- [+5pt] le graphe des commits devra refléter un workflow **GitLab** propre.
+- [+5pt] pour une séquence de pipelines d'intégration continue qui montre que vous avez bien respecté les étapes avec la fusion des *MR*.
+- [+5pt] pour l'état d'avancement du projet.
+- [-2pt] par commit direct dans la branche `main` ou par *pipeline* effacé manuellement, ou en cas de non-respect des consignes du *fork* !
 
-## Add your files
+## Contexte
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+Maintenant que vous avez découvert les bases de l'intégration continue dans **GitLab**, vous avez pour objectif de construire un dépôt "générique" pour vos projets futurs. Vous avez déjà une idée de la structure de votre *CI* et des *jobs* que vous allez mettre en place (`build`, `test`, ...). Ces étapes sont clairement dépendantes du langage de programmation que vous allez utiliser, mais un *certain nombre de règles sont communes* à tous les projets. En particulier, **avant même de commencer à écrire du code, vous souhaitez que la CI puisse "stopper" le pipeline si certaines propriétés ne sont pas respectées**. Vous économiserez ainsi du temps de calcul et des ressources pour les *runners* **GitLab** (`S4A_DOCKER`, `S4B_DOCKER`, `S4C_DOCKER`).
 
-```
-cd existing_repo
-git remote add origin https://gitlab-ce.iut.u-bordeaux.fr/Pierre/r4.02-qualite-dev-tpnote.git
-git branch -M main
-git push -uf origin main
-```
+Vous allez donc, **à tour de rôle avec votre binôme (ou trinôme)**, préparer une *MR* pour mettre l'une des règles de votre *CI*. Cette *MR* sera associée à une *Issue* que vous aurez créée au préalable dans votre tableau de bord **GitLab**. Une fois la fonctionnalité implémentée, vous ferez relire votre *MR* par votre binôme (ou trinôme) avant de la fusionner dans la branche `main`.
 
-## Integrate with your tools
+> En particulier, pour chacune des règles, vous devrez vous assurer que la *CI* doit passer (resp. échouer) si la règle est respectée (resp. n'est pas respectée). Deux pipelines devront mettre en évidence le bon fonctionnement de la règle.
 
-- [ ] [Set up project integrations](https://gitlab-ce.iut.u-bordeaux.fr/Pierre/r4.02-qualite-dev-tpnote/-/settings/integrations)
+Comme ce sujet ne dépend pas d'un langage de programmation spécifique et que les règles de votre *CI* seront réalisées en *shell* (`bash`), on vous demande d'utiliser une image *Docker* minimale : `registry.u-bordeaux.fr/tthor/alpine-git`.
 
-## Collaborate with your team
+> **Note**
+> Si vous deviez utiliser des outils non disponibles dans l'image `alpine-git`, vous êtes autorisé à ajouter l'installation de paquets supplémentaires dans une section `before_script` de votre fichier `.gitlab-ci.yml`. Pour information : `apk add --no-cache <package>`, voir le [Dockerfile](./docker/Dockerfile) ayant servi à construire l'image `alpine-git`.
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+> **Warning**
+> Vous devez impérativement utiliser l'image *Docker* `pregistry.u-bordeaux.fr/vhub/alpine-git` ! De plus, la durée du *pipeline* pour ce projet étant normalement inférieure à **10 secondes**, vous ne devriez donc pas attendre plus d'**1 minute** pour que votre *CI* s'exécute. Ainsi, l'activité des runners est enregistrée, et vous êtes responsable du contrôle des ressources allouées à vos tests d'intégration continue. Vous serez sanctionné dans la notation en cas d'abus !
 
-## Test and Deploy
+**Tout au long de cette épreuve, vous n'aurez pas besoin d'échanger entre vous 'oralement'. Vous devez juste choisir qui sera le développeur qui mettra en place la première fonctionnalité** (puis la seconde en cas de trinôme).
 
-Use the built-in continuous integration in GitLab.
+Des morceaux de script *shell* (`bash`) seront donnés tout au long du sujet pour vous aider à mettre en place votre *CI*.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+## Organisation
 
-***
+- Constituer un groupe de 2 (ou 3) participants.
+> **Warning**
+> Vous serez disposés dans la salle de contrôle de manière à ne pas pouvoir communiquer oralement !
+- Le premier développeur *fork* ce dépôt (en mode `private` !) et donne les droits `maintainer` aux autres membres de l'équipe.
+- Le premier développeur invite l'enseignant correcteur de son groupe en tant que `maintainer`.
+> **Note**
+> Afin de pouvoir créer des *MR* à partir d'*Issues* gérées dans votre tableau de bord **GitLab**, on vous demande de supprimer la relation avec le projet à l'origine du *fork* (voir /settings/general/advanced/ Remove fork relationship).
+- Les runners **GitLab** sont configurés pour exécuter les *pipelines* en mode Docker donc vous devez conserver le tag 'docker' dans votre fichier `.gitlab-ci.yml`.
+- Un des membres de l'équipe sera en charge de rédiger le fichier `README.md` (qui devra contenir, dès le début, les noms des membres de l'équipe) et le maintenir à jour pour faire état de l'avancement du travail.
+- Enfin, tous les membres de l'équipe clonent le dépôt **GitLab**.
 
-# Editing this README
+## Mise en place des règles
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+- Les règles suivantes doivent être mises en place dans votre *CI* dans un stage `pre` (avant le lancement des autres *jobs* de la *CI*).
+- Chaque règle correspondra à un job spécifique nommé `pre-rule<numero>`.
+- Vous devez créer, au préalable, une *Issue* pour chacune des règles qui sera nommée `us-rule<numero>` [`us` pour 'User Story' en méthodologie agile].
+- Vous devez mettre en place une *MR* pour chacune des *Issues*.
+- Vous pouvez traiter l'implémentation des règles suivantes dans le *désordre*.
 
-## Suggestions for a good README
+### `rule1` : *présence du fichier `.gitignore`*
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+Afin de garantir, **dès le début du projet**, que les fichiers inutiles ne soient pas ajoutés dans le dépôt, on vous demande de mettre en place une règle qui vérifie qu'un fichier `.gitignore` est bien présent à la racine du dépôt.
 
-## Name
-Choose a self-explaining name for your project.
+- Le premier développeur crée une *Issue* nommée `us-rule1` et une *MR* associée pour la première règle à mettre en place, et implémente la fonctionnalité dans la branche correspondante en ajoutant les instructions nécessaires dans le fichier `.gitlab-ci.yml` à la racine du projet. La *CI* devrait être en échec car le fichier `.gitignore` n'est pas présent actuellement.
+- Le ou les autres membres de l'équipe relisent la *MR* et, une fois les discussions résolues, ajoutent un fichier `.gitignore` dans une branche temporaire et fusionnent ensuite cette branche dans la branche `main`.
+- Le développeur en charge de la *MR* rebase sa branche sur la branche `main` et s'assure que la *CI* passe maintenant. Il peut alors fusionner la *MR* dans la branche `main`.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+> **Note technique**
+>
+> Pour vérifier la présence du fichier `.gitignore`, vous pouvez utiliser la syntaxe suivante dans un script *shell* (`bash`) :
+> ```bash
+> if [ -f /path/to/file ]; then
+>     echo 'File exists.'
+>     exit 0
+> else
+>     echo 'File does not exist.'
+>     exit 1
+> fi
+> ```
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+### `rule2` : *la branche doit être rebasée*
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+Par défaut dans **Gitlab**, si une branche n'est pas rebasée, la *MR* associée ne pourra pas être fusionnée dans l'interface web. On vous demande de mettre en place une règle qui vérifie que la branche est bien rebasée sur la branche `main` avant de lancer les *jobs* de la *CI*, ce qui permettra d'économiser des ressources.
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+- Le second développeur crée une *Issue* nommée `us-rule2` et une *MR* associée pour la seconde règle à mettre en place, et implémente la fonctionnalité dans la branche correspondante. La *CI* devrait passer car la branche est bien rebasée sur la branche `main`.
+- Le ou les autres membres de l'équipe relisent la *MR* et, une fois les discussions résolues, ajoutent un commit quelconque dans une branche temporaire et fusionnent ensuite cette branche dans la branche `main`.
+- Le développeur en charge de la *MR* relance le pipeline associé pour faire échouer la *CI* car la branche n'est plus rebasée sur la branche `main`.
+- Le développeur en charge de la *MR* rebase sa branche sur la branche `main` et s'assure que la *CI* passe maintenant. Il peut alors fusionner la *MR* dans la branche `main`.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+> **Note technique**
+>
+> Pour vérifier que la branche est bien rebasée sur la branche `main`, vous pouvez utiliser la commande `check_rebase()` dans le script *shell* `.gitlab/check_ci.sh` :
+> ```bash
+> .gitlab/check_ci.sh rebase
+> ```
+> Lors de l'exécution de la *CI*, la variable d'environnement `CI_COMMIT_SHA` sera définie automatiquement par **GitLab** et correspondra au *hash* du dernier commit de la branche. Si vous souhaitez tester votre script en local, vous pouvez définir cette variable manuellement :
+> ```bash
+> export CI_COMMIT_SHA=`git show-ref -s HEAD`
+> echo $CI_COMMIT_SHA
+> .gitlab/check_ci.sh rebase
+> ```
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+### `rule3` : *chaque fichier doit commencer par un `header` mentionnant un copyright*
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+Chacun des fichiers source du dépôt devrait commencer par un `header` qui mentionne le nom des auteurs, la date de création du fichier, un copyright... On vous demande de mettre en place une règle qui vérifie que chaque fichier commence bien par ce `header`.
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+- Le troisième développeur (ou le premier développeur du binôme) crée une *Issue* et une *MR* associée nommée `mr-rule3` pour la troisième règle à mettre en place, et implémente la fonctionnalité dans la branche correspondante. La *CI* devrait passer car tous les fichiers actuellement présents devraient déjà disposer d'un `header` valide.
+- Le ou les autres membres de l'équipe relisent la *MR* et, une fois les discussions résolues, modifient (pour faire échouer la règle) le `header` du fichier `.gitlab/check_ci.sh` dans une branche temporaire et fusionnent ensuite cette branche dans la branche `main`.
+- Le développeur en charge de la *MR* rebase sa branche sur la branche `main` et s'assure que la *CI* échoue car la règle n'est plus respectée.
+- Le développeur en charge de la *MR* corrige le fichier `.gitlab/check_ci.sh` pour que la *CI* passe. Il peut alors fusionner la *MR* dans la branche `main`.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+> **Note technique**
+>
+> Pour vérifier que chaque fichier commence bien par un `header`, vous pouvez utiliser la commande `check_header()` dans un script *shell* `.gitlab/check_ci.sh` :
+> ```bash
+> .gitlab/check_ci.sh header
+> ```
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+## Refactoring
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+Une fois les règles mises en place, vous allez effectuer un refactoring de votre *CI* pour la rendre plus lisible et plus facile à maintenir. Vous allez également mettre en place des *jobs* pour les stages `build` et `test` qui seront déclenchés après le stage `pre`.
+> Les 2 fonctionnalités suivantes peuvent être traitées de manière indépendante.
 
-## License
-For open source projects, say how it is licensed.
+### `refactor1` : *déplacement des jobs dans des fichiers séparés*
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+En utilisant l'instruction `include:` dans `.gitlab-ci.yml`, déplacez le code correspondant aux jobs du stage `pre` dans un fichier rangé dans `.gitlab/preliminary.yml`. Ajouter les 2 stages `build`et `test` et les jobs associés dans `.gitlab/build.yml` et `.gitlab/test.yml`.
+
+> **Note technique**
+>
+> Le fichier `build.yml` pourra ressembler à ceci :
+> ```yaml
+> build:
+>   stage: build
+>   script:
+>     - echo "Building the project..."
+> ```
+> Le fichier `test.yml` pourra ressembler à ceci :
+> ```yaml
+> test:
+>   stage: test
+>   script:
+>     - echo "Testing the project..."
+> ```
+
+### `refactor2` : *utilisation d'une matrice de jobs*
+
+- En utilisant l'instruction `matrix:` dans `.gitlab-ci.yml`, mettez en place une matrice pour les *jobs* du stage `pre` qui permettra de tester votre projet avec trois options [`ignore`, `rebase`, `header`] pour votre script `.gitlab/check_ci.sh`.
+
+> **Note technique**
+>
+> La matrice pourra ressembler à ceci :
+> ```yaml
+>  parallel:
+>    matrix:
+>      - TEST: [ignore, rebase, header]
+> ```
+> Vous pouvez consulter la documentation de **GitLab** pour plus d'informations sur les [matrices de jobs](https://docs.gitlab.com/ee/ci/yaml/#parallelmatrix).
+
