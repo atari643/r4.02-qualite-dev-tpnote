@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 ###
 #
-#  @file test_gitignore.sh
+#  @file check_header.sh
 #  @copyright 2023-2024 Univ. Bordeaux. All rights reserved.
 #
 #  @version 1.2.3
