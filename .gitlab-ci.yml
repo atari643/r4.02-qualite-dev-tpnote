@@ -4,7 +4,7 @@ default:
   tags: ['docker']
 
 stages:
-  - build
+  - pre
   - rule2
 
 before_script:
@@ -26,4 +26,6 @@ pre-rule1:
 rule2-job:
   stage: rule2
   script:
-    - cd .gitlab && ./check_ci.sh rebase
+    - chmod +x .gitlab/check_ci.sh
+    - cd .gitlab
+    - ./check_ci.sh rebase
