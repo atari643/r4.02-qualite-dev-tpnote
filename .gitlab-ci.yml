@@ -4,8 +4,7 @@ default:
   tags: ['docker']
 
 stages:
-  - pre
-
+  - build
   - rule2
 
 before_script:
