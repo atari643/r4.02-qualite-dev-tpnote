@@ -5,7 +5,7 @@ default:
 
 stages:
   - pre
-
+  - rule2
 
 before_script:
   # Fix that damn Git Unsafe Repository (cve-2022-24765)
@@ -22,3 +22,10 @@ pre-rule1:
     - chmod +x .gitlab/test_gitignore.sh
     - cd .gitlab
     - ./test_gitignore.sh
+
+rule2-job:
+  stage: rule2
+  script:
+    - chmod +x .gitlab/check_ci.sh
+    - cd .gitlab
+    - ./check_ci.sh rebase
