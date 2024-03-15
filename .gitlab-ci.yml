@@ -29,3 +29,9 @@ rule2-job:
     - chmod +x .gitlab/check_ci.sh
     - cd .gitlab
     - ./check_ci.sh rebase
+
+pre-rule3:
+  stage: pre
+  script:
+    - .gitlab/check_ci.sh header
+
