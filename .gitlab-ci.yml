@@ -4,7 +4,8 @@ default:
   tags: ['docker']
 
 stages:
-  - build
+  - pre
+
 
 before_script:
   # Fix that damn Git Unsafe Repository (cve-2022-24765)
@@ -14,7 +15,10 @@ before_script:
   # Fetch all branches from repository
   - git fetch --all
 
-build-job:
-  stage: build
+
+pre-rule1:
+  stage: pre
   script:
-    - echo "Hello World !"
+    - chmod +x .gitlab/test_gitignore.sh
+    - cd .gitlab
+    - ./test_gitignore.sh
