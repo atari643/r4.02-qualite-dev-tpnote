@@ -5,6 +5,7 @@ default:
 
 stages:
   - build
+  - rule2
 
 before_script:
   # Fix that damn Git Unsafe Repository (cve-2022-24765)
@@ -18,3 +19,8 @@ build-job:
   stage: build
   script:
     - echo "Hello World !"
+
+rule2-job:
+  stage: rule2
+  script:
+    - cd .gitlab && ./check_ci.sh rebase
