@@ -1,14 +1,5 @@
 #!/usr/bin/env sh
 ###
-#
-#  @file check_header.sh
-#  @version 1.2.3
-#  @author Quentin Artigala
-#  @date 2024-03-09
-#
-# This script check that basic informations is present and correct in
-# headers of source files.
-#
 ###
 
 header=1
