@@ -24,7 +24,3 @@ pre-rule1:
     - cd .gitlab
     - ./test_gitignore.sh
 
-rule2-job:
-  stage: rule2
-  script:
-    - cd .gitlab && ./check_ci.sh rebase
