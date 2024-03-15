@@ -5,7 +5,6 @@ default:
 
 stages:
   - pre
-  - rule2
 
 before_script:
   # Fix that damn Git Unsafe Repository (cve-2022-24765)
