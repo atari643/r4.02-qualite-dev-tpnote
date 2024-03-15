@@ -23,7 +23,7 @@ pre-rule1:
     - cd .gitlab
     - ./test_gitignore.sh
 
-pre-rule1:
+pre-rule3:
   stage: pre
   script:
     - .gitlab/check_ci.sh header
