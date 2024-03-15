@@ -1,5 +1,15 @@
 #!/usr/bin/env sh
 ###
+#
+#  @file check_header.sh
+#  @copyright 2023-2024 Univ. Bordeaux. All rights reserved.
+#
+#  @version 1.2.3
+#  @author SKUTECKI Paul
+#  @date 2024-03-09
+#
+# This script check that .gitignore exist
+#
 ###
 
 header=1
