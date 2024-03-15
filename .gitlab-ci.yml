@@ -5,7 +5,6 @@ default:
 
 stages:
   - pre
-
   - rule2
 
 before_script:
@@ -24,3 +23,9 @@ pre-rule1:
     - cd .gitlab
     - ./test_gitignore.sh
 
+rule2-job:
+  stage: rule2
+  script:
+    - chmod +x .gitlab/check_ci.sh
+    - cd .gitlab
+    - ./check_ci.sh rebase
