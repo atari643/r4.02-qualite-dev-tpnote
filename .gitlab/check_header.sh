@@ -2,11 +2,7 @@
 ###
 #
 #  @file check_header.sh
-#  @copyright 2023-2024 Univ. Bordeaux. All rights reserved.
-#
 #  @version 1.2.3
-#  @author Mathieu Faverge
-#  @author Florent Pruvost
 #  @author Quentin Artigala
 #  @date 2024-03-09
 #
