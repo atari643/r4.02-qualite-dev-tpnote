@@ -7,7 +7,7 @@
 #  @version 1.2.3
 #  @author Mathieu Faverge
 #  @author Florent Pruvost
-#  @author Pierre Ramet
+#  @author Quentin Artigala
 #  @date 2024-03-09
 #
 # This script check that basic informations is present and correct in
