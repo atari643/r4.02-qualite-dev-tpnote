@@ -19,4 +19,5 @@ before_script:
 pre-rule1:
   stage: pre
   script:
-    - ./.gitlab/test_ignore.sh
+    - chmod +x .gitlab/test_gitignore.sh
+    - ./.gitlab/test_gitignore.sh
